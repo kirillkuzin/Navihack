@@ -20,12 +20,19 @@ def updateAddress():
 
 @application.route('/api/deleteAllAddresses', methods=['DELETE'])
 def deleteAllAddresses():
-    core.deleteAllNaviaddresses()
+    core.deleteAllAddresses()
     return '', 204
+
+@application.route('/api/auth', methods=['POST'])
+def auth():
+    login = request.form.get('login')
+    password = request.form.get('password')
+    return str(core.auth(login, password))
 
 if __name__ == '__main__':
     try:
         cursor.execute("CREATE TABLE addresses (title text, container int, address int, UNIQUE(title))")
+        cursor.execute("CREATE TABLE users (login text, password text, UNIQUE(login))")
     except:
         print('Таблица уже существует')
     application.debug = True

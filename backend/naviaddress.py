@@ -14,7 +14,6 @@ class Naviaddress:
         jsonData = r.json()['result']
         addresses = []
         for address in jsonData:
-            print('')
             addressData = {'name': address['postal_address'], 'point': address['point']}
             addresses.append(addressData)
         return json.dumps(addresses)

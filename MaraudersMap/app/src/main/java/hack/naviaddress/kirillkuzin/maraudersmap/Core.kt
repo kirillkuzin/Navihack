@@ -14,21 +14,6 @@ class Core {
         FuelManager.instance.basePath = "http://maraudersmap.us-east-2.elasticbeanstalk.com/api"
     }
 
-    fun getAddresses() {
-        "/getAddresses".httpGet().responseJson { request, response, result ->
-            val (data, error) = result
-            if (error == null) {
-                val jsonArray = data!!.array()
-                for (i in 0..(jsonArray.length() - 1)) {
-                    val address = Klaxon().parse<Address>(jsonArray[i].toString())
-                    map!!.createMarker(address!!.point.lat, address!!.point.lng, address!!.name)
-                }
-            } else {
-                println(error)
-            }
-        }
-    }
-
     fun updateAddresses() {
         "/getAddresses".httpGet().responseJson { request, response, result ->
             val (data, error) = result
@@ -44,7 +29,7 @@ class Core {
         }
     }
 
-    fun updateMyAddress(_latitude : Double, _longitude : Double, _title : String) {
+    fun updateMyAddress(_latitude : Double, _longitude : Double, _title : String?) {
         "/updateAddress".httpPut(listOf("latitude" to _latitude, "longitude" to _longitude, "title" to _title)).responseString { request, response, result ->
         }
     }

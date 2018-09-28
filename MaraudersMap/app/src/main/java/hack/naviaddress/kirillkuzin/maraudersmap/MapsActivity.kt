@@ -18,6 +18,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
     private var map = Map()
     private var core = Core()
     private var locationManager : LocationManager? = null
+    private var login : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val permissions = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -29,6 +30,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
                 .findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
+        login = getIntent().getExtras().getString("login")
     }
 
 
@@ -43,20 +45,16 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         map.mMap = googleMap
+        map.start()
         map.mMap!!.isMyLocationEnabled = true
         core.map = map
-        core.getAddresses()
         locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, locationListener)
-
-//        val sydney = LatLng(-34.0, 151.0)
-//        mMap!!.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//        mMap!!.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(_location: Location) {
             Log.d("LOCATION", _location.longitude.toString() + ":" + _location.latitude.toString())
-            core.updateMyAddress(_location.latitude, _location.longitude, "Moscow")
+            core.updateMyAddress(_location.latitude, _location.longitude, login)
             core.updateAddresses()
         }
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
