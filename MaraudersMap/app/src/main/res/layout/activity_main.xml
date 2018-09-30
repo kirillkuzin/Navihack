@@ -5,9 +5,16 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     tools:context=".MainActivity"
     tools:layout_editor_absoluteY="81dp">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="41dp"></ImageView>
 
     <android.support.design.widget.TextInputEditText
         android:id="@+id/inputPassword"

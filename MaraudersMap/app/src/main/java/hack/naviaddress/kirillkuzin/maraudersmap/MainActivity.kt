@@ -3,12 +3,14 @@ package hack.naviaddress.kirillkuzin.maraudersmap
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.security.NetworkSecurityPolicy
 import android.support.design.widget.TextInputEditText
 import android.widget.Button
 import android.widget.TextView
 
 import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.httpPost
+
 import hack.naviaddress.kirillkuzin.maraudersmap.R.id.*
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +21,8 @@ class MainActivity : AppCompatActivity() {
         FuelManager.instance.basePath = "http://maraudersmap.us-east-2.elasticbeanstalk.com/api"
         val button = findViewById<Button>(button)
         button.setOnClickListener { auth() }
+        val n = NetworkSecurityPolicy.getInstance()
+        println(n.isCleartextTrafficPermitted)
     }
 
     fun auth() {

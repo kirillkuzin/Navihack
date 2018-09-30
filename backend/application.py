@@ -4,7 +4,7 @@ from flask import Flask, request
 
 application = Flask(__name__)
 core = Core()
-db = sqlite3.connect('db.db')
+db = sqlite3.connect(core.DATABASE_NAME)
 cursor = db.cursor()
 
 @application.route('/api/getAddresses')
@@ -31,8 +31,11 @@ def auth():
 
 if __name__ == '__main__':
     try:
-        cursor.execute("CREATE TABLE addresses (title text, container int, address int, UNIQUE(title))")
-        cursor.execute("CREATE TABLE users (login text, password text, UNIQUE(login))")
+        cursor.execute("CREATE TABLE {} (title text, container int, address int, UNIQUE(title))".format(core.TABLE_ADDRESSES_NAME))
+    except:
+        print('Таблица уже существует')
+    try:
+        cursor.execute("CREATE TABLE {} (login text, password text, UNIQUE(login))".format(core.TABLE_USERS_NAME))
     except:
         print('Таблица уже существует')
     application.debug = True
